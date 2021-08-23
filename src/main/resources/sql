@@ -1,0 +1,145 @@
+create table body
+(
+    id   serial
+        constraint body_pk
+            primary key,
+    name varchar
+);
+
+create unique index body_id_uindex
+    on body (id);
+
+create table engine
+(
+    id   serial
+        constraint engine_pk
+            primary key,
+    name varchar
+);
+
+create unique index engine_id_uindex
+    on engine (id);
+
+create table gear_box
+(
+    id   serial
+        constraint gear_box_pk
+            primary key,
+    name varchar
+);
+
+create unique index gear_box_id_uindex
+    on gear_box (id);
+
+create table body_x_engine
+(
+    id        serial
+        constraint body_x_engine_pk
+            primary key,
+    id_body   integer not null
+        constraint body_x_engine_body_id_fk
+            references body
+            on update cascade on delete cascade,
+    id_engine integer not null
+        constraint body_x_engine_engine_id_fk
+            references engine
+            on update cascade on delete cascade
+);
+
+create unique index body_x_engine_id_uindex
+    on body_x_engine (id);
+
+create table engine_x_gear_box
+(
+    id          serial
+        constraint engine_x_gear_box_pk
+            primary key,
+    id_gear_box integer not null
+        constraint engine_x_gear_box_gear_box_id_fk
+            references gear_box
+            on update cascade on delete cascade,
+    id_engine   integer not null
+        constraint engine_x_gear_box_engine_id_fk
+            references engine
+            on update cascade on delete cascade
+);
+
+create unique index engine_x_gear_box_id_uindex
+    on engine_x_gear_box (id);
+
+create table body_x_gear_box
+(
+    id          serial
+        constraint body_x_gear_box_pk
+            primary key,
+    id_body     integer not null
+        constraint body_x_gear_box_body_id_fk
+            references body
+            on update cascade on delete cascade,
+    id_gear_box integer not null
+        constraint body_x_gear_box_gear_box_id_fk
+            references gear_box
+            on update cascade on delete cascade
+);
+
+create unique index body_x_gear_box_id_uindex
+    on body_x_gear_box (id);
+
+
+
+insert into body (id, name)
+VALUES (1, 'body_name1'),
+       (2, 'body_name2'),
+       (3, 'body_name3'),
+       (4, 'body_name4'),
+       (5, 'body_name5'),
+       (6, 'body_name6'),
+       (7, 'body_name7');
+
+insert into engine (id, name)
+VALUES (1, 'engine_name1'),
+       (2, 'engine_name2'),
+       (3, 'engine_name3'),
+       (4, 'engine_name4'),
+       (5, 'engine_name5'),
+       (6, 'engine_name6'),
+       (7, 'engine_name7');
+
+insert into gear_box (id, name)
+VALUES (1, 'gear_box_name1'),
+       (2, 'gear_box_name2'),
+       (3, 'gear_box_name3'),
+       (4, 'gear_box_name4'),
+       (5, 'gear_box_name5'),
+       (6, 'gear_box_name6'),
+       (7, 'gear_box_name7');
+
+insert into body_x_engine (id, id_body, id_engine)
+VALUES (1, 1, 2),
+       (2, 1, 5),
+       (3, 1, 3),
+       (4, 5, 1),
+       (5, 1, 7),
+       (6, 3, 4),
+       (7, 5, 1),
+       (8, 7, 1);
+
+insert into body_x_gear_box (id, id_body, id_gear_box)
+VALUES (1, 1, 2),
+       (2, 1, 5),
+       (3, 1, 3),
+       (4, 5, 1),
+       (5, 1, 7),
+       (6, 3, 4),
+       (7, 5, 1),
+       (8, 7, 1);
+
+insert into engine_x_gear_box (id, id_engine, id_gear_box)
+VALUES (1, 1, 2),
+       (2, 1, 5),
+       (3, 1, 3),
+       (4, 5, 1),
+       (5, 1, 7),
+       (6, 3, 4),
+       (7, 5, 1),
+       (8, 7, 1);
